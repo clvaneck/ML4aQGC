@@ -15,7 +15,7 @@ Because the tagger output is a continuous score $s\in[0,1]$, its discriminating 
 
 The three RNN versions are compared on the combined diboson validation sample in Figure~\ref{fig:vbfrnn_roc} and summarised in Table~\ref{tab:vbfrnn_auc}. Version~1, trained to separate resonant VBF from gluon-fusion production using only the four leading tagging jets, generalises poorly to the VBS versus non-VBS EWK task it is applied to here, reaching an AUC of only $0.629$ and lying close to the diagonal. Retraining the identical four-jet architecture directly on the VBS versus non-VBS EWK objective (version~2) raises the AUC substantially to $0.760$, confirming that the relevant topological information is accessible from the tagging-jet kinematics once the network is optimised for the correct target. Extending the input to six jets by adding the two large-$R$ signal jets (version~3) improves the AUC further to $0.801$.
 
-The motivation for adding the signal jets is shown in Figure~\ref{fig:vbfrnn_sigjet}: the dijet invariant mass of the two large-$R$ signal jets retains discriminating power between the VBS and non-VBS EWK topologies that is not captured by the tagging jets alone. Exploiting this information yields a relative AUC improvement of $+5.4\%$ from version~2 to version~3. The corresponding score distributions, shown in Figure~\ref{fig:vbfrnn_scores}, illustrate the effect directly: for the four-jet tagger the VBS and non-VBS EWK distributions overlap substantially, whereas for the six-jet tagger the non-VBS EWK events are pushed towards low scores and the VBS events towards high scores, giving a markedly cleaner separation. Version~3 is therefore adopted as the baseline tagger for the remainder of the analysis.
+The motivation for adding the signal jets is shown in Figure~\ref{fig:vbfrnn_sigjet}: the dijet invariant mass of the two large-$R$ signal jets retains discriminating power between the VBS and non-VBS EWK topologies that is not captured by the tagging jets alone. Exploiting this information yields a relative AUC improvement of $+5.4\%$ from version~2 to version~3. The corresponding score distributions for all three versions, shown in Figure~\ref{fig:vbfrnn_scores}, illustrate the progression directly: version~1 leaves the VBS and non-VBS EWK distributions almost entirely overlapping, version~2 already achieves a visible separation, and for the six-jet version~3 tagger the non-VBS EWK events are pushed towards low scores and the VBS events towards high scores, giving a markedly cleaner separation. Version~3 is therefore adopted as the baseline tagger for the remainder of the analysis.
 
 \begin{table}[h]
 \centering
@@ -48,16 +48,21 @@ v3 & 6 jets, VBS vs.\ non-VBS EWK & 0.801 & $+5.4\%$ \\
 
 \begin{figure}[h]
 \centering
-\begin{subfigure}[b]{0.48\textwidth}
+\begin{subfigure}[b]{0.32\textwidth}
+\includegraphics[width=\textwidth]{figures/vbfrnn_score_v1.png}
+\caption{Version~1 (4 jets)}
+\end{subfigure}
+\hfill
+\begin{subfigure}[b]{0.32\textwidth}
 \includegraphics[width=\textwidth]{figures/vbfrnn_score_v2.png}
 \caption{Version~2 (4 jets)}
 \end{subfigure}
 \hfill
-\begin{subfigure}[b]{0.48\textwidth}
+\begin{subfigure}[b]{0.32\textwidth}
 \includegraphics[width=\textwidth]{figures/vbfrnn_score_v3.png}
 \caption{Version~3 (6 jets)}
 \end{subfigure}
-\caption{VBF-RNN score distributions for VBS (blue) and non-VBS EWK (red) events, for the four-jet version~2 (left) and the six-jet version~3 (right) tagger. Including the signal jets sharpens the separation, pushing non-VBS EWK events to low scores and VBS events to high scores. The residual structure near $s\approx0.9$ in the four-jet distribution is discussed in Section~\ref{sec:vbfrnn_multiplicity}.}
+\caption{VBF-RNN score distributions for VBS (blue) and non-VBS EWK (red) events, for the version~1 resonance-trained tagger (left), the four-jet version~2 tagger (centre) and the six-jet version~3 tagger (right). Version~1 barely separates the two classes; retraining on the VBS versus non-VBS EWK target (version~2) yields a clear separation, and including the signal jets (version~3) sharpens it further, pushing non-VBS EWK events to low scores and VBS events to high scores. The residual structure near $s\approx0.9$ in the four-jet version~2 distribution is discussed in Section~\ref{sec:vbfrnn_multiplicity}.}
 \label{fig:vbfrnn_scores}
 \end{figure}
 
