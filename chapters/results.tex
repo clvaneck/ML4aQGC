@@ -69,16 +69,9 @@ The version~2 score distributions in Figure~\ref{fig:vbfrnn_scores} exhibit a lo
 \section{Transformer architecture}
 \label{sec:vbfrnn_transformer}
 
-The recurrent architecture propagates information sequentially through the jet collection and may lose distant context for longer input sequences. A transformer encoder, which computes pairwise interactions between all input jets simultaneously through the self-attention mechanism described in Chapter~\ref{chap:ml}, was trained on the identical six-jet input and VBS versus non-VBS EWK target as version~3 to test whether the global attention structure offers a tangible benefit. The architecture is illustrated in Figure~\ref{fig:vbfrnn_transformer_arch}.
+The recurrent architecture propagates information sequentially through the jet collection and may lose distant context for longer input sequences. A transformer encoder, which computes pairwise interactions between all input jets simultaneously through the self-attention mechanism described in Chapter~\ref{chap:ml}, was trained on the identical six-jet input and VBS versus non-VBS EWK target as version~3 to test whether the global attention structure offers a tangible benefit
 
 Adding the transformer curve to the ROC comparison, shown in Figure~\ref{fig:vbfrnn_roc_transformer}, yields an AUC of $0.806$, a marginal improvement of less than one per mille over the version~3 RNN ($0.801$). The two curves are essentially indistinguishable and, in particular, the transformer offers no gain in the high-VBS-efficiency regime relevant to the analysis. Given the negligible performance difference and the higher computational cost of the attention mechanism for the short jet sequences used here, the recurrent version~3 tagger is retained as the baseline.
-
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.6\textwidth]{figures/transformermodel.pdf}
-\caption{Transformer encoder architecture evaluated as an alternative to the recurrent version~3 tagger. The sequence of jet four-vectors is processed by multi-head self-attention and position-wise feedforward blocks, followed by a pooling operation and a sigmoid output node, as described in Chapter~\ref{chap:ml}.}
-\label{fig:vbfrnn_transformer_arch}
-\end{figure}
 
 \begin{figure}[h]
 \centering
@@ -145,23 +138,6 @@ Figure~\ref{fig:vbfrnn_aqgc_v1} shows the response of version~1 to representativ
 \label{fig:vbfrnn_aqgc_v23}
 \end{figure}
 
-\begin{figure}[h]
-\centering
-\begin{subfigure}[b]{0.32\textwidth}
-\includegraphics[width=\textwidth]{figures/vbfrnn_roc_WW.pdf}
-\caption{$WW$}
-\end{subfigure}
-\begin{subfigure}[b]{0.32\textwidth}
-\includegraphics[width=\textwidth]{figures/vbfrnn_roc_WZ.pdf}
-\caption{$WZ$}
-\end{subfigure}
-\begin{subfigure}[b]{0.32\textwidth}
-\includegraphics[width=\textwidth]{figures/vbfrnn_roc_ZZ.pdf}
-\caption{$ZZ$}
-\end{subfigure}
-\caption{Per-channel ROC curves for the $WW$, $WZ$ and $ZZ$ diboson final states, each showing the three RNN versions and the transformer. The relative ordering of the versions is consistent across all three channels, justifying the use of the combined sample in Figure~\ref{fig:vbfrnn_roc}.}
-\label{fig:vbfrnn_roc_channels}
-\end{figure}
 
 \chapter{Sensitivity of a machine learning based aQGC discriminant}
 \section{Event selection}
