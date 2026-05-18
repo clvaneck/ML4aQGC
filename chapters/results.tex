@@ -41,7 +41,7 @@ v3 & 6 jets, VBS vs.\ non-VBS EWK & 0.801 & $+5.4\%$ \\
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.6\textwidth]{figures/vbfrnn_sigjet_mjj.pdf}
+\includegraphics[width=0.6\textwidth]{figures/vbfrnn_sigjet_mjj.png}
 \caption{Normalised distribution of the dijet invariant mass of the two large-$R$ signal jets at the training pre-selection, for VBS (blue) and non-VBS EWK (red) $WZjj\to 4q$ events. The difference between the two distributions, quantified by the ratio panel, demonstrates the additional discriminating information that motivates including the signal jets in version~3 of the tagger.}
 \label{fig:vbfrnn_sigjet}
 \end{figure}
@@ -49,12 +49,12 @@ v3 & 6 jets, VBS vs.\ non-VBS EWK & 0.801 & $+5.4\%$ \\
 \begin{figure}[h]
 \centering
 \begin{subfigure}[b]{0.48\textwidth}
-\includegraphics[width=\textwidth]{figures/vbfrnn_score_v2.pdf}
+\includegraphics[width=\textwidth]{figures/vbfrnn_score_v2.png}
 \caption{Version~2 (4 jets)}
 \end{subfigure}
 \hfill
 \begin{subfigure}[b]{0.48\textwidth}
-\includegraphics[width=\textwidth]{figures/vbfrnn_score_v3.pdf}
+\includegraphics[width=\textwidth]{figures/vbfrnn_score_v3.png}
 \caption{Version~3 (6 jets)}
 \end{subfigure}
 \caption{VBF-RNN score distributions for VBS (blue) and non-VBS EWK (red) events, for the four-jet version~2 (left) and the six-jet version~3 (right) tagger. Including the signal jets sharpens the separation, pushing non-VBS EWK events to low scores and VBS events to high scores. The residual structure near $s\approx0.9$ in the four-jet distribution is discussed in Section~\ref{sec:vbfrnn_multiplicity}.}
@@ -114,7 +114,7 @@ Transformer (6 jets) & 0.806 & $+0.6\%$ \\
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.7\textwidth]{figures/vbfrnn_roc_transformer.pdf}
+\includegraphics[width=0.7\textwidth]{figures/vbfrnn_roc_transformer.png}
 \caption{ROC curves on the combined $WW+WZ+ZZ$ EWK validation sample, repeating the three RNN versions of Figure~\ref{fig:vbfrnn_roc} with the transformer added: version~1 ($\mathrm{AUC}=0.629$), version~2 ($\mathrm{AUC}=0.760$), version~3 ($\mathrm{AUC}=0.801$) and the six-jet transformer ($\mathrm{AUC}=0.806$). The transformer curve lies on top of the version~3 curve, confirming that the marginal AUC gain is not significant at high VBS efficiency.}
 \label{fig:vbfrnn_roc_transformer}
 \end{figure}
