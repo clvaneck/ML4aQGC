@@ -1,4 +1,4 @@
-\chapter{Performance of the VBF-RNN vector boson scattering tagger}
+\chapter{Performance of a VBS topology identifier}
 \label{chap:vbfrnn_results}
 
 This chapter evaluates the VBF-RNN tagger introduced in Section~\ref{sec:vbfrnn} on its ability to isolate the vector boson scattering topology from the inclusive electroweak $VVjj$ production. The three RNN versions of Table~\ref{tab:vbfrnn_versions} are first compared on a common figure of merit, after which the artefacts introduced by the jet multiplicity are discussed and the response of the tagger to the different aQGC operator families is studied; finally an alternative transformer-based architecture is evaluated. The performance reported here motivates the choice of the version~3 score as both a pre-selection requirement and an input feature to the aQGC discriminant of Chapter~\ref{chap:analysismethods}.
@@ -298,7 +298,7 @@ Given the absence of a measurable benefit, and the additional model and inferenc
 \end{table}
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.7\textwidth]{figures/vbfrnn_roc_transformer.png}
+\includegraphics[width=0.5\textwidth]{figures/vbfrnn_roc_transformer.png}
 \caption{ROC curves on the combined $WW+WZ+ZZ$ EWK validation sample, repeating the three RNN versions of Figure~\ref{fig:vbfrnn_roc} with the transformer added: version~1 ($\mathrm{AUC}=0.629$), version~2 ($\mathrm{AUC}=0.760$), version~3 ($\mathrm{AUC}=0.801$) and the six-jet transformer ($\mathrm{AUC}=0.806$). The transformer curve lies on top of the version~3 curve, confirming that the marginal AUC gain is not significant at high VBS efficiency.}
 \label{fig:vbfrnn_roc_transformer}
 \end{figure}

@@ -60,7 +60,7 @@ The four tagging jets constrain only the production side of the event, but the V
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.6\textwidth]{figures/vbfrnn_sigjet_mjj.png}
-\caption{Normalised distribution of the dijet invariant mass of the two large-$R$ signal jets at the training pre-selection, for VBS (blue) and non-VBS EWK (red) $WZjj\to 4q$ events. The difference between the two distributions, quantified by the ratio panel, demonstrates the additional discriminating information that motivates including the signal jets in version~3 of the tagger.}
+\caption{Distribution of the dijet invariant mass of the two large-$R$ signal jets, for VBS (blue) and non-VBS EWK (red) $VV+jj$ events. The difference between the two distributions, shown by the ratio panel, demonstrates the additional discriminating information that motivates including the signal jets in version~3 of the tagger.}
 \label{fig:vbfrnn_sigjet}
 \end{figure}
 
@@ -90,15 +90,15 @@ Each LSTM layer has a hidden dimension of $25$, with a dropout and recurrent dro
     \textbf{Hyperparameter} & \textbf{Value} \\
     \hline
     Stacked LSTM layers          & 2 \\
-    Hidden dimension per layer   & 25 \\
+    Dimension per hidden layer   & 25 \\
     Dropout                      & 0.3 \\
     Recurrent dropout            & 0.3 \\
     Output activation            & sigmoid \\
-    Loss                         & weighted binary cross-entropy \\
+    Loss                         & binary cross-entropy \\
     Training epochs              & 200 \\
     Train\,/\,validation split   & 80\,/\,20 \\
     Input features per jet       & 4 ($p_T,\eta,\phi,E$) \\
-    Input jets                   & 4 (v1, v2) / 6 (v3) \\
+    Maximum input jets                   & Up to 4 (v1, v2) / Up to 6 (v3) \\
     \hline
   \end{tabular}
 \end{table}
@@ -125,7 +125,8 @@ As an alternative to the recurrent architecture, a transformer encoder was also 
     Dropout (embedding / block / classifier)    & 0.15 / 0.25 / 0.20 \\
     Output activation                           & sigmoid \\
     Training epochs                             & 200 \\
-    Input                                       & 6 jets $\times$ 4 features \\
+    Input features per jet                      & 4 ($p_T,\eta,\phi,E$) \\
+    Maximum input jets                          & Up to 6 \\
     \hline
   \end{tabular}
 \end{table}
