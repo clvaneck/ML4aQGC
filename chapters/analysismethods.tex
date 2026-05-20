@@ -257,6 +257,30 @@ The binary approach assigns a single signal probability without distinguishing b
 
 The multi-class classifier extends the output layer to $K=4$ nodes corresponding to background, scalar, mixed and tensor classes. A softmax activation is applied to produce a valid probability distribution $(\hat{y}_1,\dots,\hat{y}_K)$ over the four classes and the network is trained by minimising the categorical cross-entropy loss, following the multi-class formulation described in Chapter~\ref{chap:ml}. The network is trained on all available operators across all three families simultaneously, with class balancing applied to account for the differing numbers of operators per family.
 
+\subsection{Architecture and training hyperparameters}
+
+Both the binary and multi-class MLPs share a feed-forward architecture of fully connected hidden layers with ReLU activations, followed by an output layer whose form is dictated by the classification task: a single sigmoid node for the binary classifier and four softmax nodes for the multi-class classifier. The two networks differ in width, depth and dropout, the multi-class classifier being wider and using slightly stronger dropout to control overfitting on the more granular labelling task, while the binary classifier is deeper but narrower. The complete set of architecture and training hyperparameters is given in Table~\ref{tab:mlp_hyperparams}.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Architecture and training hyperparameters of the binary and multi-class MLP discriminants. Both networks share fully connected hidden layers with ReLU activations and differ in the output layer dictated by the classification task, as well as in width, depth and dropout.}
+  \label{tab:mlp_hyperparams}
+  \begin{tabular}{|c|c|c|}
+    \hline
+    \textbf{Hyperparameter} & \textbf{Binary} & \textbf{Multi-class} \\
+    \hline
+    Width (hidden units per layer) & 64 & 128 \\
+    Depth (hidden layers)          & 6  & 5 \\
+    Dropout                        & 0.20 & 0.25 \\
+    Hidden activation              & ReLU & ReLU \\
+    Output activation              & Sigmoid & Softmax \\
+    Output nodes                   & 1 & 4 \\
+    Loss function                  & Binary cross-entropy & Categorical cross-entropy \\
+    Input features                 & \multicolumn{2}{c|}{12 (Section~\ref{sec:mldiscriminant})} \\
+    \hline
+  \end{tabular}
+\end{table}
+
 \subsection{Final discriminant and significance estimation}
 
 The final discriminant used for sensitivity estimation is the logarithm of the likelihood ratio derived from the classifier output,
