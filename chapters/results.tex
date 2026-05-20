@@ -356,7 +356,7 @@ Three independent classifiers are trained, on $\mathcal{O}_{S,0}+\mathcal{O}_{S,
 
 Tracing the iteration columns of Table~\ref{tab:binary_auc} shows two effects. The change of upstream tagger from version~2 to version~3 lifts the specialised AUC by $+0.1$--$0.3\%$ across the three families, modest but uniform. The equal-signal-cross-section reweighting moves the specialised AUC by less than $\pm 0.1\%$: the specialised training mixture only spans two operators in a single family, which already share a similar effective cross section, so the rebalancing has nothing to correct and therefore no headline AUC footprint.
 
-These AUC values look near-perfect, but the AUC alone is misleading here. The signal and the QCD-dominated background are very different physical processes, and the discriminating information is concentrated at the extreme low and high ends of the score distribution where the network has no difficulty separating the two classes. Figure~\ref{fig:binary_spec_S_counts}, which repeats the scalar specialised score distribution on an absolute event scale, makes the imbalance explicit: the QCD-dominated background produces $\mathcal{O}(10^5)$ weighted events at low score, whereas the scalar signal yield is many orders of magnitude smaller, so even in the highest-score bin the absolute background exceeds the signal by a factor of $\mathcal{O}(10^2)$. AUC, which weights all thresholds equally, therefore over-states what can be inferred about the analysis sensitivity. The genuine question, whether the cleaner v3 score shape is worth the doubled background yield it accepts, is decided by the Asimov significance in Section~\ref{sec:sensitivity_comparison}.
+These AUC values look near-perfect, but the AUC alone is misleading here. The signal and the QCD-dominated background are very different physical processes, and the discriminating information is concentrated at the extreme low and high ends of the score distribution where the network has no difficulty separating the two classes. Figure~\ref{fig:binary_spec_counts}, which repeats the specialised score distributions on an absolute event scale for the three families, makes the imbalance explicit: the QCD-dominated background produces $\mathcal{O}(10^5)$ weighted events at low score, whereas the per-family signal yields are many orders of magnitude smaller, so even in the highest-score bin the absolute background exceeds the signal by a factor of $\mathcal{O}(10^2)$ for the scalar and mixed probe operators and only approaches comparable yields for the high-cross-section tensor probe operator. AUC, which weights all thresholds equally, therefore over-states what can be inferred about the analysis sensitivity. The genuine question, whether the cleaner v3 score shape is worth the doubled background yield it accepts, is decided by the Asimov significance in Section~\ref{sec:sensitivity_comparison}.
 
 \begin{figure}[htbp]
 \centering
@@ -400,9 +400,22 @@ These AUC values look near-perfect, but the AUC alone is misleading here. The si
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.55\textwidth]{figures/mlp_score_spec_S_counts.png}
-\caption{Signal-probability distribution of the scalar specialised classifier on an absolute event scale, for the v3 + equal-$\sigma$ configuration. The QCD-dominated background produces $\mathcal{O}(10^5)$ weighted events at low score and the absolute background still exceeds the absolute signal by a factor of $\mathcal{O}(10^2)$ in the highest-score bin, illustrating that the near-unity AUC of the specialised classifier is not a sufficient figure of merit for the analysis.}
-\label{fig:binary_spec_S_counts}
+\begin{subfigure}[b]{0.32\textwidth}
+\includegraphics[width=\textwidth]{figures/mlp_score_spec_S_counts.png}
+\caption{Scalar}
+\end{subfigure}
+\hfill
+\begin{subfigure}[b]{0.32\textwidth}
+\includegraphics[width=\textwidth]{figures/mlp_score_spec_M_counts.png}
+\caption{Mixed}
+\end{subfigure}
+\hfill
+\begin{subfigure}[b]{0.32\textwidth}
+\includegraphics[width=\textwidth]{figures/mlp_score_spec_T_counts.png}
+\caption{Tensor}
+\end{subfigure}
+\caption{Signal-probability distributions of the three specialised classifiers on an absolute event scale, for the v3 + equal-$\sigma$ configuration. The QCD-dominated background produces $\mathcal{O}(10^5)$ weighted events at low score, and even in the highest-score bin the absolute background exceeds the absolute signal by a factor of $\mathcal{O}(10^2)$ for the scalar and mixed probe operators; only the tensor probe operator, whose physical cross section is the largest, approaches comparable yields. This illustrates that the near-unity AUC of the specialised classifiers is not a sufficient figure of merit for the analysis.}
+\label{fig:binary_spec_counts}
 \end{figure}
 
 \subsection{Global model}
