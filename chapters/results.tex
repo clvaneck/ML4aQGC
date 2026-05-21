@@ -1,14 +1,14 @@
 \chapter{Performance of a VBS topology identifier}
 \label{chap:vbfrnn_results}
 
-This chapter evaluates the VBF-RNN tagger introduced in Section~\ref{sec:vbfrnn} on its ability to isolate the vector boson scattering topology from the inclusive electroweak $VVjj$ production. The three RNN versions of Table~\ref{tab:vbfrnn_versions} are first compared on a common figure of merit, after which the artefacts introduced by the jet multiplicity are discussed and the response of the tagger to the different aQGC operator families is studied, finally an alternative transformer-based architecture is evaluated. The performance reported here motivates the choice of the version~3 score as both a pre-selection requirement and an input feature to the aQGC discriminant of Chapter~\ref{chap:analysismethods}.
+This chapter evaluates the VBF-RNN tagger introduced in Section~\ref{sec:vbfrnn} on its ability to isolate the vector boson scattering topology from the inclusive electroweak $VVjj$ production. The three RNN versions of Table~\ref{tab:vbfrnn_versions} are first compared on a common gauge of performance, after which the artefacts introduced by the jet multiplicity are discussed and the response of the tagger to the different aQGC operator families is studied, finally an alternative transformer-based architecture is evaluated. The performance reported here motivates the choice of the version~3 score as both a pre-selection requirement and an input feature to the aQGC discriminant of Chapter~\ref{chap:analysismethods}.
 
 \section{Event selection and evaluation}
 \label{sec:vbfrnn_eval}
 
 The tagger is evaluated on the statistically independent validation sample of electroweak $VVjj$ events described in Section~\ref{sec:vbfrnn}, using the truth-level VBS / non-VBS labels obtained from the boson- and tagging-jet matching procedure. The combined $WW$, $WZ$ and $ZZ$ final states are merged into a single sample, so that the quoted performance reflects the inclusive diboson channel relevant to the fully hadronic analysis, the channel-by-channel breakdown is given in Section~\ref{sec:vbfrnn_perf}.
 
-Because the tagger output is a continuous score $s\in[0,1]$, its discriminating power is quantified with the receiver operating characteristic (ROC) curve. For a given threshold $s_{\mathrm{cut}}$, events with $s>s_{\mathrm{cut}}$ are tagged as VBS. The true-positive rate (the VBS efficiency, or VBS positive rate) is the fraction of true VBS events that are tagged, while the false-positive rate (the non-VBS positive rate) is the fraction of non-VBS EWK events that are also tagged. Sweeping $s_{\mathrm{cut}}$ from $1$ to $0$ traces out the ROC curve in the (false-positive rate, true-positive rate) plane. A perfect classifier reaches the top-left corner, whereas a random classifier lies on the diagonal. The area under this curve (AUC) condenses the curve into a single scalar: it equals the probability that a randomly chosen VBS event is assigned a higher score than a randomly chosen non-VBS event, so that $\mathrm{AUC}=1$ is perfect separation and $\mathrm{AUC}=0.5$ is no separation. The AUC is used throughout this chapter as the primary figure of merit.
+Because the tagger output is a continuous score $s\in[0,1]$, its discriminating power is quantified with the receiver operating characteristic (ROC) curve. For a given threshold $s_{\mathrm{cut}}$, events with $s>s_{\mathrm{cut}}$ are tagged as VBS. The true-positive rate (the VBS efficiency, or VBS positive rate) is the fraction of true VBS events that are tagged, while the false-positive rate (the non-VBS positive rate) is the fraction of non-VBS EWK events that are also tagged. Sweeping $s_{\mathrm{cut}}$ from $1$ to $0$ traces out the ROC curve in the (false-positive rate, true-positive rate) plane. A perfect classifier reaches the top-left corner, whereas a random classifier lies on the diagonal. The area under this curve (AUC) condenses the curve into a single scalar: it equals the probability that a randomly chosen VBS event is assigned a higher score than a randomly chosen non-VBS event, so that $\mathrm{AUC}=1$ is perfect separation and $\mathrm{AUC}=0.5$ is no separation. The AUC is used throughout this chapter as the primary gauge of performance.
 
 Although the AUC provides a convenient scalar summary, it weights all score thresholds equally, whereas the tagger is not used as a hard classifier in the analysis. The score enters both as a loose pre-selection requirement and as a continuous input feature to the aQGC discriminant of Chapter~\ref{chap:analysismethods}. The operationally relevant region of the ROC curve is therefore the high-VBS-efficiency, low-threshold regime, where the signal is retained almost in full while the non-VBS EWK component is only mildly suppressed, and the full shape of the score distribution, not the AUC alone, is what ultimately propagates into the discriminant. Both the AUC and the score distributions are consequently reported in what follows.
 
@@ -21,7 +21,7 @@ These expectations are borne out on the combined diboson validation sample, show
 
 Version~3 is therefore adopted as the baseline tagger for the remainder of the analysis. Beyond the inclusive AUC, this choice is reinforced by the response to the individual aQGC operator families discussed in Section~\ref{sec:vbfrnn_aqgc}: version~1 does not merely underperform inclusively but, as shown there, fails entirely to recognise the tensor- and mixed-operator topologies, whereas version~3 responds uniformly across all families, an operator independence that is essential given that a single tagger is applied to every signal hypothesis.
 
-The inclusive figures of merit translate directly into the operating point used downstream. Table~\ref{tab:vbfrnn_workingpoint} reports the VBS efficiency and non-VBS EWK rejection at the score threshold $s>0.3$ that defines the training selection (Table~\ref{tab:mlp_selection}), which moves the phase space close to the analysis signal region. At this threshold versions~2 and~3 both retain $\approx\!90\%$ of VBS events, whereas version~1 keeps only $57\%$: trained on a different objective, its VBS score is not pushed high enough for the loose threshold to be efficient, which alone disqualifies it as the analysis pre-selection. Comparing the two correctly trained taggers at their matched $\approx\!90\%$ VBS efficiency, version~3 rejects $20.8\%$ more non-VBS EWK background than version~2 in relative terms, equivalently, it accepts $12.5\%$ fewer background events, consistent with its higher AUC and its cleaner, more bimodal score distribution.
+The inclusive gauges of performance translate directly into the operating point used downstream. Table~\ref{tab:vbfrnn_workingpoint} reports the VBS efficiency and non-VBS EWK rejection at the score threshold $s>0.3$ that defines the training selection (Table~\ref{tab:mlp_selection}), which moves the phase space close to the analysis signal region. At this threshold versions~2 and~3 both retain $\approx\!90\%$ of VBS events, whereas version~1 keeps only $57\%$: trained on a different objective, its VBS score is not pushed high enough for the loose threshold to be efficient, which alone disqualifies it as the analysis pre-selection. Comparing the two correctly trained taggers at their matched $\approx\!90\%$ VBS efficiency, version~3 rejects $20.8\%$ more non-VBS EWK background than version~2 in relative terms, equivalently, it accepts $12.5\%$ fewer background events, consistent with its higher AUC and its cleaner, more bimodal score distribution.
 
 The combined AUC masks some channel dependence, which Table~\ref{tab:vbfrnn_auc_channels} and Figure~\ref{fig:vbfrnn_roc_channels} resolve by diboson final state. The $WWjj$ and $WZjj$ channels follow the expected version ordering and account for most of the gain, version~3 improving on the version~1 baseline by $+30.6\%$ and $+19.5\%$ respectively. The $ZZjj$ channel behaves differently: version~1 already reaches $\mathrm{AUC}=0.790$, far above its $WW/WZ$ values, because the heavy scalar $H\to q\bar{q}q\bar{q}$ resonance on which version~1 was trained (Section~\ref{sec:vbfrnn}) most closely resembles the $ZZjj$ final state, so retraining adds little and the six-jet version~3 is in fact marginally worse ($-0.9\%$). This is consistent with two effects: the combined six-jet model is optimised on the full sample, which is dominated by the higher-rate $WW$ and $WZ$ channels, and the additional signal-jet inputs carry little extra VBS-versus-non-VBS information for $ZZjj$ while slightly raising the model capacity. Because the analysis combines all three channels and is dominated by $WW$ and $WZ$, the combined version~3 tagger remains the appropriate choice, the $ZZjj$ behaviour is a known caveat rather than a problem for the inclusive selection.
 
@@ -414,8 +414,30 @@ These AUC values look near-perfect, but the AUC alone is misleading here. The si
 \includegraphics[width=\textwidth]{figures/mlp_score_spec_T_counts.png}
 \caption{Tensor}
 \end{subfigure}
-\caption{Signal-probability distributions of the three specialised classifiers on an absolute event scale, for the v3 + equal-$\sigma$ configuration. The QCD-dominated background produces $\mathcal{O}(10^5)$ weighted events at low score, and even in the highest-score bin the absolute background exceeds the absolute signal by a factor of $\mathcal{O}(10^2)$ for the scalar and mixed probe operators; only the tensor probe operator, whose physical cross section is the largest, approaches comparable yields. This illustrates that the near-unity AUC of the specialised classifiers is not a sufficient figure of merit for the analysis.}
+\caption{Signal-probability distributions of the three specialised classifiers on an absolute event scale, for the v3 + equal-$\sigma$ configuration. The QCD-dominated background produces $\mathcal{O}(10^5)$ weighted events at low score, and even in the highest-score bin the absolute background exceeds the absolute signal by a factor of $\mathcal{O}(10^2)$ for the scalar and mixed probe operators; only the tensor probe operator, whose physical cross section is the largest, approaches comparable yields. This illustrates that the near-unity AUC of the specialised classifiers is not a sufficient gauge of performance for the analysis.}
 \label{fig:binary_spec_counts}
+\end{figure}
+
+As a complementary, threshold-level cross-check, Figure~\ref{fig:binary_spec_cm} shows the confusion matrices of the three specialised classifiers at the default $s>0.5$ decision boundary. The matrices are normalised by true class, so each column sums to unity and the diagonal entries give the per-class efficiency. All three families are classified consistently: the signal is recovered with $95$--$97\%$ efficiency and the background with $95$--$96\%$, with off-diagonal misclassification rates of only a few percent. The same caveat as for the AUC applies, however: the per-class normalisation removes the large background-to-signal yield imbalance of Figure~\ref{fig:binary_spec_counts}, and a single hard threshold does not reflect the continuous-score, high-efficiency regime in which the discriminant is actually used, so the confusion matrix likewise overstates the analysis performance and the decisive comparison remains the Asimov significance of Section~\ref{sec:sensitivity_comparison}.
+
+\begin{figure}[htbp]
+\centering
+\begin{subfigure}[b]{0.32\textwidth}
+\includegraphics[width=\textwidth]{figures/mlp_cm_spec_S.png}
+\caption{Scalar}
+\end{subfigure}
+\hfill
+\begin{subfigure}[b]{0.32\textwidth}
+\includegraphics[width=\textwidth]{figures/mlp_cm_spec_M.png}
+\caption{Mixed}
+\end{subfigure}
+\hfill
+\begin{subfigure}[b]{0.32\textwidth}
+\includegraphics[width=\textwidth]{figures/mlp_cm_spec_T.png}
+\caption{Tensor}
+\end{subfigure}
+\caption{Confusion matrices of the three specialised binary classifiers on the v3 + equal-$\sigma$ configuration, evaluated on the lowest-index operator of each family at the $s>0.5$ decision threshold. Each matrix is normalised by true class (columns sum to unity), so the diagonal entries give the per-class efficiency. Signal and background are recovered with $95$--$97\%$ efficiency across all three families.}
+\label{fig:binary_spec_cm}
 \end{figure}
 
 \subsection{Global model}
@@ -447,6 +469,15 @@ The score distribution for the final configuration, Figure~\ref{fig:binary_globa
 \includegraphics[width=0.55\textwidth]{figures/mlp_score_global_counts.png}
 \caption{Signal-probability distribution of the global binary classifier on an absolute event scale, for the v3 + equal-$\sigma$ configuration. The background-to-signal ratio is at least $\mathcal{O}(10^2)$ in every bin and reaches $\mathcal{O}(10^4)$ at low score, illustrating that the inclusive AUC is not a useful proxy for the expected sensitivity.}
 \label{fig:binary_global_counts}
+\end{figure}
+
+The threshold-level cross-check of Figure~\ref{fig:binary_global_cm} confirms this consistency for the global model: at the $s>0.5$ decision boundary the composite background and the inclusive aQGC signal are recovered with $96\%$ and $95\%$ efficiency respectively, comparable to the specialised classifiers. As for those, the per-class normalisation hides the yield imbalance of Figure~\ref{fig:binary_global_counts} and the single threshold does not capture the operating regime, so the matrix is reported only as a consistency check and not as a gauge of performance for the analysis.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.55\textwidth]{figures/mlp_cm_global.png}
+\caption{Confusion matrix of the global binary classifier on the v3 + equal-$\sigma$ configuration, evaluated on the inclusive aQGC signal ($S+M+T$) against the composite background at the $s>0.5$ decision threshold. The matrix is normalised by true class, so the diagonal entries give the per-class efficiency: $96\%$ for the background and $95\%$ for the aQGC signal.}
+\label{fig:binary_global_cm}
 \end{figure}
 
 \begin{table}[htbp]
@@ -504,7 +535,18 @@ Even with the $M/T$ degeneracy, this architecture is potentially powerful for th
 \label{fig:multiclass_scores}
 \end{figure}
 
-\section{Correlation studies}
+The four-way classification can also be summarised by the confusion matrix of Figure~\ref{fig:multiclass_cm}, obtained by assigning each event to the softmax node with the highest output and normalising by true class. The background is recovered cleanly ($94\%$) and the scalar family reasonably well ($78\%$), but the mixed and tensor classes are heavily cross-assigned: only $22\%$ of true mixed events are labelled mixed, with $32\%$ migrating to the scalar and $42\%$ to the tensor node, and true tensor events are recovered with only $56\%$ efficiency. This is the confusion-matrix manifestation of the mixed/tensor degeneracy already seen in the output node distributions of Figure~\ref{fig:multiclass_scores}.
+
+The confusion matrix is, however, not the best gauge of performance for this analysis, for the same reason discussed above for the output node distributions. It forces a hard four-way argmax assignment over $\{\,\mathrm{background},S,M,T\,\}$, whereas the multi-class discriminant is never used that way: the analysis does not employ multiple signal output nodes simultaneously, but probes one operator at a time, retaining only the output node matching the family of the probed operator and using it, together with the background, as a binary signal-versus-background discriminant. The analysis therefore never needs to tell the scalar, mixed and tensor families apart from one another, so the large mixed/tensor cross-assignments that dominate the off-diagonal do not propagate into the sensitivity. As for the binary classifiers, the genuine performance comparison is the Asimov significance of Section~\ref{sec:sensitivity_comparison}.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.6\textwidth]{figures/mlp_cm_multiclass.png}
+\caption{Confusion matrix of the multi-class classifier on the v3 + equal-$\sigma$ configuration, obtained by assigning each event to the highest of the four softmax output nodes and normalising by true class (columns sum to unity). The background and scalar classes are recovered with $94\%$ and $78\%$ efficiency, while the mixed and tensor classes are strongly cross-assigned, reflecting the mixed/tensor degeneracy of Figure~\ref{fig:multiclass_scores}. As discussed in the text, this hard four-way assignment is not the way the discriminant is used in the analysis, so the matrix is not the best gauge of performance.}
+\label{fig:multiclass_cm}
+\end{figure}
+
 \section{Feature ranking}
+\section{Correlation studies}
 \section{Sensitivity comparison}
 \label{sec:sensitivity_comparison}
