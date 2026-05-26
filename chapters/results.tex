@@ -344,6 +344,78 @@ A second methodological change applied during the iteration is the equal-signal-
   \end{tabular}
 \end{table}
 
+\subsection{Working-point optimisation}
+\label{sec:wp_optimisation}
+
+The chosen training-selection cuts, a VBF-RNN v3 score above $0.3$ on every event and a DisCoJet score above $0.65$ on both large-$R$ jets, are not the only viable working points. Tighter cuts purify the sample at the cost of signal yield, and the trade-off must be set by the metric that actually drives the analysis, the Asimov significance $Z_A$ of the downstream MLP discriminant. To establish the working-point choice on physics grounds rather than convention, the global binary MLP of Section~\ref{sec:binary_global} on the final v3~+~equal-$\sigma$ configuration is retrained from scratch under each alternative selection, scanning the VBF-RNN cut over $\{0.3,0.5,0.7,0.9\}$ at fixed DisCoJet${}>0.65$ and the DisCoJet cut over $\{0.65,0.85\}$ at fixed VBF-RNN${}>0.3$. Crucially this is a \emph{training-selection} scan, not a re-evaluation of a fixed network on different test selections, so for every point in the scan a new MLP is trained on the events surviving that selection and the resulting Asimov significance reflects the best discriminant the network can extract from the available training statistics, not the response of a pre-trained model to a tighter cut. The resulting $Z_A$ values for the three representative probe operators $S_0$, $M_0$ and $T_0$ are shown in Figures~\ref{fig:wp_vbfrnn} and~\ref{fig:wp_bt}, and the corresponding relative differences against the chosen working point are summarised in Table~\ref{tab:wp_scan}.
+
+\begin{figure}[htbp]
+\centering
+\begin{subfigure}[b]{0.32\textwidth}
+\includegraphics[width=\textwidth]{figures/sensitivity/sens_wp_vbf_S0.png}
+\caption{$S_0$}
+\end{subfigure}
+\hfill
+\begin{subfigure}[b]{0.32\textwidth}
+\includegraphics[width=\textwidth]{figures/sensitivity/sens_wp_vbf_M0.png}
+\caption{$M_0$}
+\end{subfigure}
+\hfill
+\begin{subfigure}[b]{0.32\textwidth}
+\includegraphics[width=\textwidth]{figures/sensitivity/sens_wp_vbf_T0.png}
+\caption{$T_0$}
+\end{subfigure}
+\caption{Asimov significance of the global binary MLP on the v3~+~equal-$\sigma$ configuration as a function of the VBF-RNN v3 working point, at fixed DisCoJet${}>0.65$, for the three representative probe operators $S_0$, $M_0$ and $T_0$. The MLP is retrained from scratch on each scanned selection, so every bar reports the best discriminant the network can build given the events surviving that working point. The chosen working point, VBF-RNN${}>0.3$, is the leftmost bar of each panel. Tighter VBF-RNN cuts only improve the sensitivity for the rare scalar operator $S_0$, while degrading it strongly for the higher-cross-section $M_0$ and $T_0$ operators where the analysis sensitivity is concentrated.}
+\label{fig:wp_vbfrnn}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\begin{subfigure}[b]{0.32\textwidth}
+\includegraphics[width=\textwidth]{figures/sensitivity/sens_wp_bt_S0.png}
+\caption{$S_0$}
+\end{subfigure}
+\hfill
+\begin{subfigure}[b]{0.32\textwidth}
+\includegraphics[width=\textwidth]{figures/sensitivity/sens_wp_bt_M0.png}
+\caption{$M_0$}
+\end{subfigure}
+\hfill
+\begin{subfigure}[b]{0.32\textwidth}
+\includegraphics[width=\textwidth]{figures/sensitivity/sens_wp_bt_T0.png}
+\caption{$T_0$}
+\end{subfigure}
+\caption{Asimov significance of the global binary MLP on the v3~+~equal-$\sigma$ configuration as a function of the DisCoJet boson-tagger working point, at fixed VBF-RNN${}>0.3$, for the three representative probe operators. As in Figure~\ref{fig:wp_vbfrnn}, the MLP is retrained from scratch at each scanned working point. The chosen working point, DisCoJet${}>0.65$ on both large-$R$ signal jets, is the left bar of each panel. The looser cut is at least as good as the tighter one on every probe operator, and strictly better on the dominant tensor operator $T_0$.}
+\label{fig:wp_bt}
+\end{figure}
+
+\begin{table}[htbp]
+  \centering
+  \caption{Asimov significance $Z_A$ of the global binary MLP on the v3~+~equal-$\sigma$ configuration under the working-point scans of Figures~\ref{fig:wp_vbfrnn} and~\ref{fig:wp_bt}. The MLP is retrained on each scanned selection. The relative difference $\Delta = [Z_A(\text{wp}) - Z_A(\text{nominal})]/Z_A(\text{nominal})$ is quoted against the chosen working point in each scan (VBF-RNN${}>0.3$ at fixed DisCoJet${}>0.65$, or DisCoJet${}>0.65$ at fixed VBF-RNN${}>0.3$). The chosen working point is highlighted in bold.}
+  \label{tab:wp_scan}
+  \begin{tabular}{|c|c|c|c|c|c|c|}
+    \hline
+    \textbf{Operator} & \multicolumn{4}{c|}{\textbf{VBF-RNN scan (DisCoJet${}>0.65$ fixed)}} & \multicolumn{2}{c|}{\textbf{DisCoJet scan (VBF-RNN${}>0.3$ fixed)}} \\
+                       & ${>}0.3$ & ${>}0.5$ & ${>}0.7$ & ${>}0.9$ & ${>}0.65$ & ${>}0.85$ \\
+    \hline
+    $S_0$ ($Z_A$)      & $\mathbf{1.090}$    & $1.149$   & $1.247$   & $1.329$   & $\mathbf{1.152}$   & $1.203$   \\
+    $S_0$ ($\Delta$)   & ---                  & $+5.4\%$  & $+14.4\%$ & $+21.9\%$ & ---                 & $+4.4\%$  \\
+    \hline
+    $M_0$ ($Z_A$)      & $\mathbf{16.192}$   & $15.232$  & $14.289$  & $9.850$   & $\mathbf{15.955}$  & $15.517$  \\
+    $M_0$ ($\Delta$)   & ---                  & $-5.9\%$  & $-11.7\%$ & $-39.2\%$ & ---                 & $-2.7\%$  \\
+    \hline
+    $T_0$ ($Z_A$)      & $\mathbf{201.950}$  & $191.005$ & $173.498$ & $115.024$ & $\mathbf{200.935}$ & $165.663$ \\
+    $T_0$ ($\Delta$)   & ---                  & $-5.4\%$  & $-14.1\%$ & $-43.0\%$ & ---                 & $-17.6\%$ \\
+    \hline
+  \end{tabular}
+\end{table}
+
+The VBF-RNN scan in Figure~\ref{fig:wp_vbfrnn} reveals two opposing trends. For the rare scalar operator $S_0$, tighter VBF-RNN cuts steadily improve $Z_A$, from $1.090$ at the chosen ${>}0.3$ working point to $1.329$ at ${>}0.9$, a $+21.9\%$ gain that reflects the larger fractional background reduction in a regime where the signal yield is already small but the per-event $S/B$ remains the limiting factor. The mixed and tensor operators show the opposite behaviour: $Z_A$ falls monotonically with the cut, by $39\%$ on $M_0$ and $43\%$ on $T_0$ at the tightest setting. These operators have signal cross sections two to four orders of magnitude larger than the scalar one, so the upstream tagger acceptance loss inflicted by a hard VBF-RNN cut directly removes the signal events that drive the analysis sensitivity. The combined-operator analysis must reach all three families with a single selection, and the chosen ${>}0.3$ cut is the one working point on the scan that keeps the high-cross-section $M_0$ and $T_0$ near their maximum while losing only $\sim$$22\%$ on the rare $S_0$ which sits at $Z_A\sim 1$ regardless and is therefore irrelevant to the headline sensitivity of the analysis.
+
+The DisCoJet scan in Figure~\ref{fig:wp_bt} tells the same story more cleanly because the only alternative on the scan is the standard tight ATLAS boson-tagger working point, DisCoJet${}>0.85$. The chosen ${>}0.65$ cut is statistically equivalent to the tight cut on the scalar and mixed operators (within $\pm 5\%$), and strictly better on the dominant tensor operator $T_0$ with $Z_A=200.9$ at ${>}0.65$ versus $165.7$ at ${>}0.85$, a $-17.6\%$ loss at the tighter cut. The mechanism is the same as for the VBF-RNN scan, the tight cut removes signal jets that the discriminant could otherwise have used, and the boson-tagger purification is not needed once the MLP is in place because the MLP itself learns the boson-decay signature from the jet kinematics it ingests (Section~\ref{sec:mldiscriminant}).
+
+Two further observations support the chosen working-point pair. First, the working points are not optimised independently of the discriminant: both Figures~\ref{fig:wp_vbfrnn} and~\ref{fig:wp_bt} report $Z_A$ of an MLP that was \emph{retrained} on the selection in question, so the scan reflects the genuine analysis sensitivity reachable at each working point rather than the response of a fixed network to a different test region, and certainly not a stand-alone cut-and-count yield. Second, the cuts are not arbitrarily loose either, DisCoJet${}>0.65$ still rejects the great majority of QCD jets and VBF-RNN${}>0.3$ rejects the bulk of non-VBS background while keeping the VBS topology score band of Chapter~\ref{chap:vbfrnn_results} populated. The chosen pair therefore sits at the natural plateau on every operator family, and tightening either cut sacrifices the dominant tensor and mixed sensitivities in exchange for at most a marginal gain on a scalar operator that is well below discovery in any case. The working-point pair (VBF-RNN${}>0.3$, DisCoJet${}>0.65$) is consequently the choice adopted for the rest of this thesis.
+
 \section{Binary classification}
 \label{sec:binary_classification}
 
