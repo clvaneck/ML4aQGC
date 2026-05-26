@@ -1,6 +1,35 @@
 \chapter{Discussion}
 \label{chap:discussion}
-\section{Electroweak sample generation for VBS processes}
-\section{Interference between the SM and BSM processes}
-\section{Multiple active operators}
-SBI atlas paper reference
+
+The sensitivity estimates of Section~\ref{sec:sensitivity_comparison} rest on a small set of modelling simplifications that bound their interpretation. The remainder of this chapter addresses the linear-interference omission (Section~\ref{sec:disc_interference}), the single-operator hypothesis (Section~\ref{sec:disc_multi_operator}), the validity of the dimension-eight expansion at high $m_{JJ}$ (Section~\ref{sec:disc_eft_validity}), the absence of systematic uncertainties (Section~\ref{sec:disc_systematics}), and the deferred choice between the three discriminants (Section~\ref{sec:disc_discriminant}).
+
+\section{Interference between the SM and BSM amplitudes}
+\label{sec:disc_interference}
+
+The signal samples include only the quadratic EFT term $d^{2}|\mathcal{M}_{8}|^{2}$, while the linear interference term $2d\,\Re(\mathcal{M}_{\mathrm{SM}}^{*}\mathcal{M}_{8})$ is neglected. The QUAD term is positive definite and depends only on the magnitude of the Wilson coefficient, whereas the linear term changes sign with $d$ and must be modelled per operator. The omission is not uniform across the three operator families, since its size tracks the polarisation structure of Chapter~\ref{chap:sm}.
+
+Scalar operators excite only longitudinal modes and therefore share the helicity structure of the SM quartic amplitude, producing the largest linear interference. The QUAD-only model is consequently the least complete on the family with the smallest absolute sensitivity, $Z_A=1.5$ on $S_0$ (Section~\ref{sec:sens_scalar}). Mixed operators lie between the two extremes: their longitudinal component contributes a reduced linear interference, while the transverse component contributes through the quadratic term alone. Tensor operators are orthogonal to the SM amplitude in helicity space, so their linear interference is suppressed. The QUAD-only approximation is therefore most accurate on the family with the largest absolute sensitivity.
+
+\section{Multiple simultaneously active operators}
+\label{sec:disc_multi_operator}
+
+Every Asimov significance reported in this thesis is computed under the hypothesis that a single Wilson coefficient is non-zero. A realistic UV completion would generate several non-zero coefficients simultaneously, and the per-operator sensitivities do not combine linearly in that case.
+
+The three discriminants accommodate this scenario unequally. The global binary classifier is trained on all 19 aQGC operators and produces a single output that can be re-used in a multi-coefficient fit without retraining. The specialised classifier covers only the operators in its training pair and is undefined for any other coefficient. The multi-class classifier produces a per-family discriminant output and is, in principle, the natural architecture for disentangling simultaneous activations. The feature ranking and confusion matrices of Section~\ref{sec:multiclass_classification} show, however, that the mixed and tensor softmax nodes are degenerate at the input-feature level. Lifting this degeneracy requires polarisation-sensitive sub-jet observables that are absent from the present twelve-input feature set, since the current inputs encode the energy and rapidity of the central diboson system but no observable that resolves the helicity content of the two reconstructed bosons.
+
+\section{Validity of the dimension-eight expansion at high invariant mass}
+\label{sec:disc_eft_validity}
+
+The amplitude growth $\mathcal{M}_8\propto E^4/\Lambda^4$ is the source of the experimental sensitivity to aQGCs and also of its principal theoretical limitation. The high-$m_{JJ}$ tail that drives the sensitivity lies in the regime where the hierarchy $E\ll\Lambda$ is no longer guaranteed for the Wilson coefficient ranges of interest. Two mitigations are routine in the VBS literature and could be applied on top of the present analysis without altering the training selection or the discriminant choice. The first is a hard energy clipping above a chosen scale $E_{\mathrm{cut}}$, with the unitarity bounds derived in \cite{PhysRevD.101.113003} providing the natural reference. The second is a smooth form-factor reweighting that suppresses the amplitude growth above a chosen scale. Either approach reduces the absolute signal yield in the high-score tail of the discriminant and therefore the reported $Z_A$, with the largest reduction expected on the tensor family whose $E^4$ growth is the steepest.
+
+\section{Systematic uncertainties}
+\label{sec:disc_systematics}
+
+The Asimov significances reported in this thesis are statistics-only: the binned likelihood that defines $Z_A$ carries only the Poisson per-bin uncertainty implied by the predicted yields. A realistic measurement would profile additional nuisance parameters for experimental and theoretical effects. The dominant experimental uncertainty in the fully hadronic channel is the modelling of the QCD multijet background, which contributes more than 90\% of the events in the training selection and suffers from limited Monte Carlo statistics in the high-score tail. The large-$R$ jet energy and mass scale and resolution affect the input features the discriminant relies on most heavily. On the signal side, the renormalisation and factorisation scales, the parton distribution functions and the parton-shower matching contribute additional uncertainties that propagate as both normalisation and shape distortions.
+
+The three discriminants do not respond identically to these uncertainties. The multi-class architecture, whose softmax outputs distribute probability across the four classes, has its sensitivity concentrated in a narrower region of the discriminant score than the binary models and is therefore more exposed to background-modelling uncertainties in the high-score tail. A definitive architecture ranking under profiling may consequently differ from the statistics-only ordering of Section~\ref{sec:sensitivity_comparison}.
+
+\section{Choice of final analysis discriminant}
+\label{sec:disc_discriminant}
+
+The three architectures occupy distinct trade-offs in the statistics-only comparison of Section~\ref{sec:sensitivity_comparison}. The specialised classifier reaches the largest absolute $Z_A$ on every probed operator at the cost of producing three independent networks, each undefined outside its training pair. The global binary classifier loses at most a few per cent of the specialised significance on the mixed and tensor families and roughly 30\% on the scalar family, in exchange for a single network that covers the full nineteen-operator basis. The multi-class classifier loses a further few per cent on the tensor family, roughly 20\% on the mixed family and roughly 20\% on the scalar family relative to the specialised model, in exchange for a per-family discriminant whose interpretation as an operator-family identifier becomes useful after the input-feature extension discussed in Section~\ref{sec:disc_multi_operator}. A definitive choice between the three architectures requires the systematic-uncertainty treatment of Section~\ref{sec:disc_systematics} and a clipping prescription following Section~\ref{sec:disc_eft_validity}, both of which are deferred to the analysis proper.
