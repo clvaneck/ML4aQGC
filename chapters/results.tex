@@ -344,9 +344,6 @@ A second methodological change applied during the iteration is the equal-signal-
   \end{tabular}
 \end{table}
 
-\subsection{Working-point optimisation}
-\label{sec:wp_optimisation}
-
 The chosen training-selection cuts, a VBF-RNN v3 score above $0.3$ on every event and a DisCoJet score above $0.65$ on both large-$R$ jets, are not the only viable working points. Tighter cuts purify the sample at the cost of signal yield, and the trade-off must be set by the metric that actually drives the analysis, the Asimov significance $Z_A$ of the downstream MLP discriminant. To establish the working-point choice on physics grounds rather than convention, the global binary MLP of Section~\ref{sec:binary_global} on the final v3~+~equal-$\sigma$ configuration is retrained from scratch under each alternative selection, scanning the VBF-RNN cut over $\{0.3,0.5,0.7,0.9\}$ at fixed DisCoJet${}>0.65$ and the DisCoJet cut over $\{0.65,0.85\}$ at fixed VBF-RNN${}>0.3$. Crucially this is a \emph{training-selection} scan, not a re-evaluation of a fixed network on different test selections, so for every point in the scan a new MLP is trained on the events surviving that selection and the resulting Asimov significance reflects the best discriminant the network can extract from the available training statistics, not the response of a pre-trained model to a tighter cut. The resulting $Z_A$ values for the three representative probe operators $S_0$, $M_0$ and $T_0$ are shown in Figures~\ref{fig:wp_vbfrnn} and~\ref{fig:wp_bt}, and the corresponding relative differences against the chosen working point are summarised in Table~\ref{tab:wp_scan}.
 
 \begin{figure}[htbp]
